@@ -1,11 +1,36 @@
-let oneNumber = prompt('Введите первое число')
-let twoNumber = prompt('Введите второе число')
+function checkPrompt(text, type = "string") {
+    while(true) {
+        const value = prompt(text);
+        if (!isNaN(Number(value))) {
+            return Number(value)
+        } else if (typeof value  == type) {
+            return value
+        } else {
+            alert("Некоренктные данные!")
+        }
+    }
+}
+const money = checkPrompt("Ваш месячный доход?", "number");
+const expenses = checkPrompt("Перечислите возможные расходы за рассчитываемый период через запятую");
+const amount = checkPrompt("Во сколько обойдуться обязательные статьи расходов?");
+const deposit = confirm("Есть ли у вас вклад в банке?")
+const profit = checkPrompt("У тебя есть дополнительные деньги? Если да то на какую сумму?", "number");
+const purpose = checkPrompt("Сколько ты хочешь накопить?", "number");
 
-oneNumber = Number((+oneNumber).toFixed(1))
-twoNumber = Number((+twoNumber).toFixed(1))
+const budgetMonth = money + profit - amount;
+console.log(budgetMonth)
 
-console.log(`При сложение чисел ${oneNumber} + ${twoNumber} = ${oneNumber + twoNumber}`);
-console.log(`При вычитании чисел ${oneNumber} - ${twoNumber} = ${oneNumber - twoNumber}`);
-console.log(`При деления чисел ${oneNumber} / ${twoNumber} = ${oneNumber / twoNumber}`);
-console.log(`При умножении чисел ${oneNumber} * ${twoNumber} = ${oneNumber * twoNumber}`); 
-console.log(`Остаток от деления ${oneNumber} % ${twoNumber} = ${oneNumber % twoNumber}`);
+const period = Math.round(purpose / budgetMonth);
+
+console.log(`тип данных money "${typeof money}", тип данных profit "${typeof profit}"`);
+console.log(`период равен ${period} месяцев, Цель заработать ${purpose} рублей`);
+const budGetDay = budgetMonth / 30;
+console.log(budGetDay);
+
+if (budGetDay >= 6000) {
+    console.log("У вас большой уровень дохода")
+} else if (budGetDay >= 3000 && budGetDay <= 6000) {
+    console.log("У вас средний уровень дохода")
+} else if (budGetDay <= 3000 && budGetDay >= 0) {
+    console.log("К сожалению у вас доход ниже среднего")
+}
