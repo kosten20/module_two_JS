@@ -12,20 +12,26 @@ function checkPrompt(text, type = "string") {
 }
 const money = checkPrompt("Ваш месячный доход?", "number");
 const expenses = checkPrompt("Перечислите возможные расходы за рассчитываемый период через запятую");
-const amount = checkPrompt("Во сколько обойдуться обязательные статьи расходов?");
+const amount = checkPrompt("Во сколько обойдуться обязательные статьи расходов?", "number");
 const deposit = confirm("Есть ли у вас вклад в банке?")
 const profit = checkPrompt("У тебя есть дополнительные деньги? Если да то на какую сумму?", "number");
 const purpose = checkPrompt("Сколько ты хочешь накопить?", "number");
+const extraMoney = checkPrompt(`Перечислите возможный доход за ваши дополнительные работы ${profit}`)
 
-const budgetMonth = money + profit - amount;
-console.log(budgetMonth)
+function getAccumulatedIncome() {
+    return money + profit - amount + extraMoney;
+}
 
-const period = Math.round(purpose / budgetMonth);
+const accumulatedIncome = getAccumulatedIncome()
 
-console.log(`тип данных money "${typeof money}", тип данных profit "${typeof profit}"`);
-console.log(`период равен ${period} месяцев, Цель заработать ${purpose} рублей`);
-const budGetDay = budgetMonth / 30;
-console.log(budGetDay);
+function getTargetMonth() {
+    return Math.round(purpose / accumulatedIncome);
+}
+
+console.log('Ваш бюджет на месяц с учетом ваших расходов составляет: ', getAccumulatedIncome());
+console.log(`Ваша цель накопить ${purpose} с учетом всех ваших расходов будет достигнута через`, getTargetMonth() + ' месяца');
+const budGetDay = accumulatedIncome / new Date(year, month + 1, 0).getDate();
+console.log('Дневной бюджет', budgetDay);
 
 if (budGetDay >= 6000) {
     console.log("У вас большой уровень дохода")
